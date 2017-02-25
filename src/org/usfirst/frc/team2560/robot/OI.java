@@ -6,9 +6,12 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 import org.usfirst.frc.team2560.robot.commands.AxisReverse;
 import org.usfirst.frc.team2560.robot.commands.ClimbUp;
+import org.usfirst.frc.team2560.robot.commands.FeedShooter;
 import org.usfirst.frc.team2560.robot.commands.HalfPowerMode;
 import org.usfirst.frc.team2560.robot.commands.ResetEncoders;
 import org.usfirst.frc.team2560.robot.commands.ShootBalls;
+import org.usfirst.frc.team2560.robot.commands.ShootBallsWithDelay;
+import org.usfirst.frc.team2560.robot.commands.UnfeedShooter;
 import org.usfirst.frc.team2560.robot.commands.FullPowerMode;
 import org.usfirst.frc.team2560.robot.commands.GyroStraightDrive;
 
@@ -43,8 +46,14 @@ public class OI
 		Button shoot = new JoystickButton(joystick0, RobotMap.shoot);
 		shoot.whileHeld(new ShootBalls());
 		
-		Button resetEnc = new JoystickButton(joystick0 , RobotMap.resetEnc);
-		resetEnc.whileHeld(new ResetEncoders( ));
+		Button feed = new JoystickButton(joystick0, RobotMap.feed_shooter);
+		feed.whileHeld(new FeedShooter());
+		
+		Button unfeed = new JoystickButton(joystick0, RobotMap.unfeed_shooter);
+		unfeed.whileHeld(new UnfeedShooter());
+		
+//		Button resetEnc = new JoystickButton(joystick0 , RobotMap.resetEnc);
+//		resetEnc.whileHeld(new ResetEncoders( ));
 	}
     
 	public Joystick getJoystick0()

@@ -13,20 +13,20 @@ public class GyroAndDrive extends Command {
     public GyroAndDrive() 
     {
     	requires(Robot.drivetrain);
-    	requires(Robot.gyro);
+    	//requires(Robot.gyro);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	Robot.gyro.reset();
+    	Robot.drivetrain.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
     	double multiplier = 0.5;
-    	double angle = Robot.gyro.angle();
+    	double angle = Robot.drivetrain.angle();
     	double Kp = 0.03;
     	Robot.drivetrain.gyroDrive(1*multiplier, -angle*Kp);
     	Timer.delay(0.04);

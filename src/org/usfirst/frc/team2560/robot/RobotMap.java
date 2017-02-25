@@ -14,6 +14,7 @@ public class RobotMap
 	//PWM Ports
 	public static int climber = 2;
 	public static int shooter = 3;
+	public static int shooter_feeder = 4; 
 	
 	//CAN IDs
 	public static int rightfollowmotor = 1; //possible left follow motor
@@ -24,7 +25,9 @@ public class RobotMap
 	//Buttons
 	public static int climbUp = 1;
 	public static int shoot = 2;
-	public static int resetEnc = 3; //experimental
+	//public static int resetEnc = 3; //experimental
+	public static int feed_shooter = 3;
+	public static int unfeed_shooter = 4;
 	public static int halfPower = 5;
 	public static int fullPowerMode = 6;
 	public static int axisReverse = 7;

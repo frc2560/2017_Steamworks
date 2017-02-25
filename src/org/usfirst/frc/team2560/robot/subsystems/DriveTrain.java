@@ -7,6 +7,9 @@ import org.usfirst.frc.team2560.robot.commands.DriveWithController;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -16,7 +19,13 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class DriveTrain extends Subsystem {
 
     private CANTalon left, right, leftFollow, rightFollow;
+    public ADXRS450_Gyro gyro;
     private RobotDrive drive;
+    public PIDController rotatePID;
+    
+    public double kP = 0;
+	public double kI = 0;
+	public double kD = 0;
     
     public DriveTrain()
     {
@@ -35,8 +44,13 @@ public class DriveTrain extends Subsystem {
     	
     	drive = new RobotDrive(left, right);
     	
-    	/**resetLeftEncoder();
-    	resetRightEncoder();*/
+    	gyro = new ADXRS450_Gyro();
+    	rotatePID = new PIDController(kP, kI, kD, gyro, (PIDOutput) this);
+    	rotatePID.setContinuous(true);
+    	rotatePID.setInputRange(-360, 360);
+    	rotatePID.setOutputRange(-1.0, 1.0);
+    	
+    	calibrate();
     }
 
     public void tankDrive(double leftAxis, double rightAxis)
@@ -175,6 +189,28 @@ public class DriveTrain extends Subsystem {
 		left.setPID(P, I, D);
 		right.setPID(P, I, D);
 	}
+	
+	//Gyro Related Methods
+	
+	public void reset()
+	{
+		gyro.reset();
+    }
+	    
+    public double angle()
+    {
+    	return gyro.getAngle();
+    }
+	    
+    public void calibrate()
+    {
+    	gyro.calibrate();
+    }
+	    
+    public double rate()
+    {
+    	return gyro.getRate();
+    }
 	
 	public void initDefaultCommand() 
     {

@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     
     public static DriveTrain drivetrain;
-    public static GyroSensor gyro;
+    //public static GyroSensor gyro;
     public static Climber climb;
     public static Shooter shoot;
 
@@ -52,13 +52,13 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	
     	drivetrain = new DriveTrain();
-    	gyro = new GyroSensor();
+    	//gyro = new GyroSensor();
     	climb = new Climber();
     	shoot = new Shooter();
-    	UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
+//    	UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
     	//cam0.setResolution(640, 480);
     	
-    	UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(1);
+//    	UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(1);
     	//cam1.setResolution(640, 480);
     	
     	oi = new OI();
@@ -153,13 +153,13 @@ public class Robot extends IterativeRobot {
     
     private void log()
     {
-    	SmartDashboard.putNumber("Angle", Robot.gyro.angle());
-    	SmartDashboard.putNumber("Gyro Rate", Robot.gyro.rate());
+    	SmartDashboard.putNumber("Angle", Robot.drivetrain.angle());
+    	SmartDashboard.putNumber("Gyro Rate", Robot.drivetrain.rate());
     	SmartDashboard.putNumber("Left Encoder Pulse", Robot.drivetrain.getLeftDecodedPulse());
     	SmartDashboard.putNumber("Right Encoder Pulse", Robot.drivetrain.getRightDecodedPulse());
     	SmartDashboard.putNumber("Left Encoder Position", Math.abs(Robot.drivetrain.getLeftEncoderPosition())); //TODO: Uncommment when encoders are installed.
     	SmartDashboard.putNumber("Right Encoder Position", Robot.drivetrain.getRightEncoderPosition());
-    	double angle = Robot.gyro.angle();
+    	double angle = Robot.drivetrain.angle();
     	double power = Robot.drivetrain.maxJoystick(Robot.oi.joystick0.getRawAxis(1), Robot.oi.joystick0.getRawAxis(3));
     	double values[]= Robot.drivetrain.gyroStraight(angle, power);
     	SmartDashboard.putNumber("gyroStraight", values[0]);

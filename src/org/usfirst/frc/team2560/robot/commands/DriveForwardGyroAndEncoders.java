@@ -15,7 +15,7 @@ public class DriveForwardGyroAndEncoders extends Command {
     public DriveForwardGyroAndEncoders(double requiredDistance, double power) 
     {
         requires(Robot.drivetrain);
-        requires(Robot.gyro);
+        //requires(Robot.gyro);
         this.requiredDistance = requiredDistance;
         this.power = power;
     }
@@ -23,7 +23,7 @@ public class DriveForwardGyroAndEncoders extends Command {
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	Robot.gyro.reset();
+    	Robot.drivetrain.reset();
     	Robot.drivetrain.resetEncoders();
     }
 
@@ -32,14 +32,14 @@ public class DriveForwardGyroAndEncoders extends Command {
     {
     	double endLeftDistance = Robot.drivetrain.getLeftEncoderPosition();
     	double endRightDistance = Robot.drivetrain.getRightEncoderPosition();
-    	double angle = Robot.gyro.angle();
+    	double angle = Robot.drivetrain.angle();
     	double Kp = 0.03;
   
     	while(endLeftDistance < requiredDistance && endRightDistance < requiredDistance);
     	{
     		endLeftDistance = Robot.drivetrain.getLeftEncoderPosition();
     		endRightDistance = Robot.drivetrain.getRightEncoderPosition();
-    		angle = Robot.gyro.angle();
+    		angle = Robot.drivetrain.angle();
     		Robot.drivetrain.gyroDrive(power, -angle*Kp);
     	}
 

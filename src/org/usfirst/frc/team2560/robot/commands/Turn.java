@@ -15,7 +15,7 @@ public class Turn extends Command {
 	
     public Turn(double requiredAngle, double power) 
     {
-        requires(Robot.gyro);
+        //requires(Robot.gyro);
         requires(Robot.drivetrain); //turn robot using drive and Kp
         this.requiredAngle = requiredAngle;
         this.power = power;
@@ -24,24 +24,27 @@ public class Turn extends Command {
     // Called just before this Command runs the first time
     protected void initialize() 
     { 
-    	Robot.gyro.reset();
+    	Robot.drivetrain.reset();
+    	Robot.drivetrain.rotatePID.setSetpoint(requiredAngle);
+    	Robot.drivetrain.rotatePID.enable();
+    	Robot.drivetrain.rotatePID.setAbsoluteTolerance(5);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	double endAngle = Robot.gyro.angle();
+    	double endAngle = Robot.drivetrain.angle();
     	while(endAngle < requiredAngle)
     	{
-    		endAngle = Robot.gyro.angle();
-    		Robot.drivetrain.tankDrive(power, -power);	//create method that turns robot according to gyro angle
+    		endAngle = Robot.drivetrain.angle();
+    		Robot.drivetrain.arcadeDrive(0, Robot.drivetrain.rotatePID.get());	//create method that turns robot according to gyro angle
     	} //extra testing code in testing project
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() 
     {
-        return false;
+        return Robot.drivetrain.rotatePID.onTarget(); //return to false if error is given or program fails to work
     }
 
     // Called once after isFinished returns true

@@ -12,19 +12,19 @@ public class GyroStraightDrive extends Command {
     public GyroStraightDrive() 
     {
     	requires(Robot.drivetrain);
-    	requires(Robot.gyro);	
+    	//requires(Robot.gyro);	
     }
 
     // Called just before this Command runs the first time
     protected void initialize() 
     {
-    	Robot.gyro.reset();
+    	Robot.drivetrain.reset();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	double angle = Robot.gyro.angle();
+    	double angle = Robot.drivetrain.angle();
     	double power = Robot.drivetrain.maxJoystick(Robot.oi.joystick0.getRawAxis(1), Robot.oi.joystick0.getRawAxis(3));
     	
     	double values[]= Robot.drivetrain.gyroStraight(angle, power);
