@@ -2,17 +2,21 @@
 package org.usfirst.frc.team2560.robot;
 
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoSink;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
+import org.usfirst.frc.team2560.robot.commands.CenterStationAuto;
+import org.usfirst.frc.team2560.robot.commands.CrossBaselineAuto;
 import org.usfirst.frc.team2560.robot.commands.DriveForwardAuto;
 import org.usfirst.frc.team2560.robot.commands.DriveForwardGEAuto;
 import org.usfirst.frc.team2560.robot.commands.DriveForwardWithEncodersAuto;
 import org.usfirst.frc.team2560.robot.commands.GyroAndDriveAuto;
 import org.usfirst.frc.team2560.robot.commands.OneFullRotationAuto;
+import org.usfirst.frc.team2560.robot.commands.RightStationAuto;
 import org.usfirst.frc.team2560.robot.commands.TurnAuto;
 import org.usfirst.frc.team2560.robot.subsystems.Climber;
 import org.usfirst.frc.team2560.robot.subsystems.DriveTrain;
@@ -39,10 +43,11 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     
     public static DriveTrain drivetrain;
-    //public static GyroSensor gyro;
     public static Climber climb;
     public static Shooter shoot;
-
+//    public static VideoSink server;
+    public static UsbCamera camServ, camServ2;
+    
     public boolean[] autoArray = {false, false, false, false, false, false, false, false};
     
     /**
@@ -52,15 +57,14 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
     	
     	drivetrain = new DriveTrain();
-    	//gyro = new GyroSensor();
     	climb = new Climber();
     	shoot = new Shooter();
-//    	UsbCamera cam0 = CameraServer.getInstance().startAutomaticCapture();
-    	//cam0.setResolution(640, 480);
+    	camServ = CameraServer.getInstance().startAutomaticCapture(0);
+    	camServ2 = CameraServer.getInstance().startAutomaticCapture(1);
     	
-//    	UsbCamera cam1 = CameraServer.getInstance().startAutomaticCapture(1);
-    	//cam1.setResolution(640, 480);
-    	
+//    	server = new VideoSink(0);
+//    	server.setSource(camServ);
+    	    	
     	oi = new OI();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new DriveForwardAuto());
@@ -83,6 +87,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() 
 	{
 		Scheduler.getInstance().run();
+		
 	}
 
 	/**
@@ -96,10 +101,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() 
     {
-    	autonomousCommand = new OneFullRotationAuto();
-    	//GyroAndDriveAuto();
-    	//DriveForwardWithEncodersAuto();
-    	//DriveForwardGEAuto();
+    	autonomousCommand = new CenterStationAuto(); //RightStationAuto(); //CenterStationAuto(); //LeftStationAuto(); //CrossBaselineAuto();
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -122,7 +124,7 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() 
     {
         Scheduler.getInstance().run();
-        log();    
+        log();
     }
 
     public void teleopInit() 
@@ -132,6 +134,8 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+    
+        Robot.drivetrain.setPercentMode();
     }
 
     /**
@@ -141,6 +145,11 @@ public class Robot extends IterativeRobot {
     {
         Scheduler.getInstance().run();
         log();
+        switchCameras();
+//        if(Robot.oi.joystick0.getPOV(0)==0 || Robot.oi.joystick0.getPOV(0)==180)
+//        {
+//        	switchCameras();
+//        }
     }
     
     /**
@@ -149,6 +158,7 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() 
     {
         LiveWindow.run();
+        switchCameras();
     }
     
     private void log()
@@ -176,5 +186,15 @@ public class Robot extends IterativeRobot {
     		autoArray[i] = false;
     	}
     }
-    
+    public void switchCameras()
+    {
+//    	if(Robot.oi.joystick0.getPOV(0) == 0)
+//    	{
+//    		server.setSource(camServ2);
+//    	}
+//    	if(Robot.oi.joystick0.getPOV(0) == 180)
+//    	{
+//    		server.setSource(camServ);
+//    	}
+    }
 }

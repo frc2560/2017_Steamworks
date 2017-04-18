@@ -12,14 +12,15 @@ public class RobotMap
 	public static int joystick1 = 1;
 	
 	//PWM Ports
+	public static int climber2 = 3; //When we were cheesecaked
 	public static int climber = 2;
-	public static int shooter = 3;
+	public static int shooter = 1;
 	public static int shooter_feeder = 4; 
 	
 	//CAN IDs
-	public static int rightfollowmotor = 1; //possible left follow motor
+	public static int rightfollowmotor = 1; //right follow motor
 	public static int leftmotor = 2;
-	public static int leftfollowmotor = 3; //possible right follow motor
+	public static int leftfollowmotor = 3; //left  follow motor
 	public static int rightmotor = 4;
 	
 	//Buttons

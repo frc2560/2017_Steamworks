@@ -9,11 +9,18 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class GyroAndDrive extends Command {
-
+	double multiplier = 0.45;
+	
     public GyroAndDrive() 
     {
     	requires(Robot.drivetrain);
     	//requires(Robot.gyro);
+    }
+    
+    public GyroAndDrive(double input) 
+    {
+    	requires(Robot.drivetrain);
+    	multiplier = input;
     }
 
     // Called just before this Command runs the first time
@@ -25,7 +32,7 @@ public class GyroAndDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() 
     {
-    	double multiplier = 0.5;
+    	
     	double angle = Robot.drivetrain.angle();
     	double Kp = 0.03;
     	Robot.drivetrain.gyroDrive(1*multiplier, -angle*Kp);

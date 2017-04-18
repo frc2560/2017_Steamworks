@@ -16,16 +16,20 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends Subsystem implements PIDOutput {
 
     private CANTalon left, right, leftFollow, rightFollow;
     public ADXRS450_Gyro gyro;
     private RobotDrive drive;
-    public PIDController rotatePID;
+    public PIDController rotatePID, movePID;
     
     public double kP = 0;
 	public double kI = 0;
 	public double kD = 0;
+	
+	public double mP = 0;
+	public double mI = 0;
+	public double mD = 0;
     
     public DriveTrain()
     {
@@ -45,11 +49,12 @@ public class DriveTrain extends Subsystem {
     	drive = new RobotDrive(left, right);
     	
     	gyro = new ADXRS450_Gyro();
-    	rotatePID = new PIDController(kP, kI, kD, gyro, (PIDOutput) this);
+    	rotatePID = new PIDController(kP, kI, kD, gyro,  this);
     	rotatePID.setContinuous(true);
     	rotatePID.setInputRange(-360, 360);
     	rotatePID.setOutputRange(-1.0, 1.0);
     	
+    	movePID = new PIDController(mP, m)
     	calibrate();
     }
 
@@ -216,5 +221,10 @@ public class DriveTrain extends Subsystem {
     {
         setDefaultCommand(new DriveWithController());
     }
+
+	public void pidWrite(double output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

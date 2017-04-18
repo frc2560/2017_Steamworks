@@ -23,7 +23,7 @@ public class AxisReverse extends Command {
     protected void execute() 
     {
     	double multiplier = 0.8;
-    	Robot.drivetrain.tankDrive(Robot.oi.getJoystick0().getRawAxis(1)*multiplier, Robot.oi.getJoystick0().getRawAxis(3)*multiplier);
+    	Robot.drivetrain.arcadeDrive(Robot.oi.getJoystick0().getRawAxis(1)*multiplier, -Robot.oi.getJoystick0().getRawAxis(2));
     }
 
     // Make this return true when this Command no longer needs to run execute()
